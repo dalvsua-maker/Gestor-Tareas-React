@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from 'react';
 import FilaTarea from "./components/FilaTarea";
 import FormularioTarea from "./components/FormularioTarea";
 import Paginacion from "./components/Paginacion";
@@ -23,7 +24,7 @@ interface Tarea {
  * la lógica de mutación de datos y la sincronización de la paginación con la URL.
  * * @component
  */
-export default function GestorTareasPage() {
+function ContenidoPrincipal() {
   const [tareas, setTareas] = useState<Tarea[]>([
     { id: 1, titulo: "Configurar el proyecto base", completada: true },
     { id: 2, titulo: "Aprender a usar el método .map()", completada: false },
@@ -133,5 +134,17 @@ export default function GestorTareasPage() {
         </div>
       </main>
     </div>
+  );
+}
+export default function Page() {
+  return (
+    <main>
+     
+      
+      {/* Envuélvelo justo aquí al llamarlo */}
+      <Suspense fallback={<div>Cargando filtros...</div>}>
+        <ContenidoPrincipal />
+      </Suspense>
+    </main>
   );
 }
